@@ -33,7 +33,7 @@ def get_board_copy(board):
     return board_copy
 
 def find_possible_moves(board, moves_list):
-    moves = []
+    moves = [ ]
     for move in moves_list:
         if is_space_free(board, move):
             moves.append(move)
