@@ -58,7 +58,14 @@ def get_computer_move(board,player_letter,comp_letter):
         i = is_win_step(board,letter,possible_moves)
         if i != None:
             return i
-    return choose_random_move_from_board(board, numbers)
+    possible_corners = list(filter(lambda x: x in possible_moves, [1,3,7,9]))
+    move = choose_random_move_from_board(board,possible_corners )
+    if move != None:
+        return move
+    if is_space_free(board, 5):
+        return 5
+    possible_sides = list(filter(lambda x: x in possible_moves, [2,4,6,8]))
+    return choose_random_move_from_board(board, possible_sides)
 
 
 def choose_random_move_from_board(board, movesList):
@@ -76,7 +83,7 @@ def choose_random_move_from_board(board, movesList):
 def get_player_move(board, turn):
     place = ''
     while place not in '1 2 3 4 5 6 7 8 9'.split() or not is_space_free(board, int(place)):
-        input_str = 'куда ставить то? (9-1) %s' % turn
+        input_str = 'куда ставить то? (9-1) %s? ' % turn
         place = (input(input_str))
     return int(place)
 
