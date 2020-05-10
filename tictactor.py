@@ -41,14 +41,22 @@ def find_possible_moves(board, moves_list):
 
 def make_move(board, letter, move):
      board[move] = letter
+
+def is_win_step(board,letter,possible_moves):
+    for i in possible_moves:
+        board_copy = get_board_copy(board)
+        make_move(board_copy,letter,i)
+        if is_winner(board_copy,letter):
+            return i
+    return None
     
 def get_computer_move(board,player_letter,comp_letter):
     numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
     possible_moves = find_possible_moves(board, numbers)
-    for i in possible_moves:
-        board_copy = get_board_copy(board)
-        make_move(board_copy,comp_letter,i)
-        if is_winner(board_copy,comp_letter):
+    letters = [comp_letter,player_letter]
+    for letter in letters:
+        i = is_win_step(board,letter,possible_moves)
+        if i != None:
             return i
     return choose_random_move_from_board(board, numbers)
 
@@ -127,7 +135,7 @@ while True:
         # Computer's turn
         if is_winner(theBoard, workingLetter):
             draw_board(theBoard)
-            print('The %s won!' % turn)
+            print('The %s ВЫЙГРАЛ!' % turn)
             game_is_playing = False
         else:
             if is_board_full(theBoard):
@@ -138,5 +146,5 @@ while True:
                 turn = switch_player(turn)
     play_again = input('хочешь ли сыграть снова?\n(yes or no)').lower()
     if not play_again.startswith('y'):
-        print('game over')
+        print('КОНЕЦ ИГРЫ')
         break
